@@ -1,0 +1,48 @@
+{
+	"schemaVersion": 1,
+	"id": "mcfurry-additions",
+	"version": "${version}",
+	"name": "MCFurry Additions",
+	"description": "This is a mod specifically designed for MCFurry, a Minecraft server for furry enthusiasts. ",
+	"authors": [
+		"Yiran"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/mcfurry-additions/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "com.github.yiranmushroom.MCFurryAdditions",
+				"adapter": "kotlin"
+			}
+		],
+		"client": [
+			{
+				"value": "com.github.yiranmushroom.MCFurryAdditionsClient",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"mixins": [
+		"mcfurry-additions.mixins.json",
+		{
+			"config": "mcfurry-additions.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21.8",
+		"java": ">=21",
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
