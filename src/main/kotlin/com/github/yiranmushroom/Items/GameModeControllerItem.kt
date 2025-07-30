@@ -38,7 +38,4 @@ class GameModeControllerItem(settings: Settings) : Item(settings) {
         }
         return net.minecraft.util.ActionResult.PASS
     }
-
-
-
 }
