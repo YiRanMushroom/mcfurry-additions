@@ -1,7 +1,10 @@
 plugins {
 	id 'fabric-loom' version "${loom_version}"
 	id 'maven-publish'
+	id 'idea'
+	id 'java'
 	id "org.jetbrains.kotlin.jvm" version "2.2.0"
+//	id 'org.spongepowered.gradle.vanilla' version '0.2.1-SNAPSHOT'
 }
 
 version = project.mod_version
@@ -9,6 +12,38 @@ group = project.maven_group
 
 base {
 	archivesName = project.archives_base_name
+}
+
+repositories {
+	maven {
+		name = 'Minecraft'
+		url = 'https://libraries.minecraft.net/'
+	}
+	mavenCentral()
+	maven {
+		name = 'Sponge / Mixin'
+		url = 'https://repo.spongepowered.org/repository/maven-public/'
+	}
+	maven {
+		name = 'BlameJared Maven (JEI / CraftTweaker / Bookshelf)'
+		url = 'https://maven.blamejared.com'
+	}
+	maven {
+		name = 'TerraformersMC / Mod Menu'
+		url = 'https://maven.terraformersmc.com/'
+	}
+	maven {
+		name = "Jared's Maven / JEI"
+		url = "https://maven.blamejared.com/"
+	}
+	maven {
+		name = "ModMaven / JEI fallback"
+		url = "https://modmaven.dev/"
+	}
+	maven {
+		name = "SheDaniel / Cloth Config"
+		url = "https://maven.shedaniel.me/"
+	}
 }
 
 repositories {
@@ -34,12 +69,15 @@ loom {
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	mappings loom.officialMojangMappings()
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
+
+	compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.5'
+	implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
 }
 
 processResources {
@@ -69,6 +107,13 @@ java {
 	sourceCompatibility = JavaVersion.VERSION_21
 	targetCompatibility = JavaVersion.VERSION_21
 }
+
+//minecraft {
+//	version(minecraft_version)
+//	if(file("src/main/resources/${mod_id}.accesswidener").exists()){
+//		accessWideners(file("src/main/resources/${mod_id}.accesswidener"))
+//	}
+//}
 
 jar {
 	inputs.property "archivesName", project.base.archivesName

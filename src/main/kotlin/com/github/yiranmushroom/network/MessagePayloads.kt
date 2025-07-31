@@ -1,23 +1,25 @@
 package com.github.yiranmushroom.network
 
-import net.minecraft.network.codec.PacketCodec
-import net.minecraft.network.codec.PacketCodecs
-import net.minecraft.network.packet.CustomPayload
-import net.minecraft.util.Identifier
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.codec.StreamCodec
+import net.minecraft.network.codec.StreamEncoder
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload
+import net.minecraft.resources.ResourceLocation
 
 data class MessageS2CPayload(
     val message: String
-) : CustomPayload {
-    companion object {
-        val SEND_MESSAGE_PAYLOAD_ID = Identifier.of("mcfurry-send-message")
-        val ID = CustomPayload.Id<MessageS2CPayload>(SEND_MESSAGE_PAYLOAD_ID)
-        val CODEC = PacketCodec.tuple(
-            PacketCodecs.STRING,
-            MessageS2CPayload::message
-        ) { message -> MessageS2CPayload(message) }
+) : CustomPacketPayload {
+    override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
+        return ID
     }
 
-    override fun getId(): CustomPayload.Id<out CustomPayload?>? {
-        return ID
+    companion object {
+        val SEND_MESSAGE_PAYLOAD_ID: ResourceLocation = ResourceLocation.withDefaultNamespace("mcfurry-send-message")
+        val ID = CustomPacketPayload.Type<MessageS2CPayload>(SEND_MESSAGE_PAYLOAD_ID)
+        val CODEC : StreamCodec<FriendlyByteBuf, MessageS2CPayload> =
+            StreamCodec.of(
+                { buf, value -> buf.writeUtf(value.message) },
+                { buf -> MessageS2CPayload(buf.readUtf()) }
+            )
     }
 }

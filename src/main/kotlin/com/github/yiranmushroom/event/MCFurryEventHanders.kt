@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.world.ServerWorld
 
 object MCFurryEventHandlerPerSecond {
     private var tickCounter = 0
