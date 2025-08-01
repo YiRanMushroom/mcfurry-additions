@@ -12,30 +12,22 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.level.GameType
 import net.minecraft.world.level.Level
 
-//import net.minecraft.item.Item
-//import net.minecraft.registry.RegistryKey
-//import net.minecraft.registry.RegistryKeys
-//import net.minecraft.server.network.ServerPlayerEntity
-//import net.minecraft.util.Identifier
-//import net.minecraft.world.GameMode
-//import net.minecraft.world.World
-
-
 class GameModeControllerItem(settings: Properties) : Item(settings) {
     override fun use(
         world: Level,
         player: Player,
         hand: InteractionHand
     ): InteractionResult {
-        if (!world.isClientSide && player is ServerPlayer) {
+        if (player is ServerPlayer) {
             val currentGameMode = player.gameMode.gameModeForPlayer
             val newGameMode = when (currentGameMode) {
                 GameType.SURVIVAL -> GameType.CREATIVE
                 GameType.CREATIVE -> GameType.ADVENTURE
                 GameType.ADVENTURE -> GameType.SURVIVAL
-                else -> GameType.CREATIVE // Default to CREATIVE if none match
+                else -> GameType.CREATIVE
             }
-            player.gameMode.changeGameModeForPlayer(newGameMode)
+
+            player.setGameMode(newGameMode)
 
             val payload = MessageS2CPayload(
                 "Game mode changed to ${newGameMode.name.lowercase()}"

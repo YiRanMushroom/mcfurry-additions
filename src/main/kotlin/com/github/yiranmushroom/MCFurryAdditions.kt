@@ -17,8 +17,8 @@ object MCFurryAdditions : ModInitializer {
 		// Proceed with mild caution.
 		logger.info("MCFurryAdditions main is initializing...")
 
-//		registerS2CPayloads()
-//		com.github.yiranmushroom.event.OnInitialize()
-//		ModItems.RegisterItems()
+		registerS2CPayloads()
+		com.github.yiranmushroom.event.OnInitialize()
+		ModItems.RegisterItems()
 	}
 }
